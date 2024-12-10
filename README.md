@@ -22,7 +22,7 @@ hop [flags] [path]
 ### reveal
 **Syntax:**
 ```bash
-peek [flags] [path]
+peek [flags] [path(optional)]
 ```
 **Flags:**
 - `-a`: Show hidden files
