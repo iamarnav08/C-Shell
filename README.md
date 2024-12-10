@@ -8,7 +8,7 @@ This was done as part of a project for the Operating Systems and Networks course
 ### hop
 **Syntax:**
 ```bash
-peek [flags] [path]
+hop [flags] [path]
 ```
 **Flags:**
 - `.`: Current directory
