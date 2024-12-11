@@ -1,8 +1,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#define BUFFER_SIZE 4096
-#define max_num_background_processes 10
+#include "headers.h"
 
 extern char prev_dir[BUFFER_SIZE];
 extern int foreground_pid;
@@ -56,6 +55,15 @@ void load_myshrc(User_Function* user_functions, int* user_function_count);
 void enable_raw_mode(struct termios *orig_termios);
 void disable_raw_mode(struct termios *orig_termios);
 void neonate(int time_arg);
+void hop(char* path);
+void reveal(char* flags, char* path, int l, int a);
+void print_information(struct dirent* entry, char* target_path, int show_hidden, int show_long);
+void proclore(char* pid_str);
+void seek(char* flags, char* what_to_find, char* directory_to_look_in);
+void recursive_seek(char* base_path, char* what_to_find, int search_dirs, int search_files, int execute_flag, int* file_count, int* dir_count, char* file_path, char* dir_path);
+void print_file(char* file_path);
+void remove_html_tags(const char *input);
+void fetch_man_page(const char *command);
 
 
 #endif

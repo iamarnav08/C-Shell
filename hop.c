@@ -1,13 +1,8 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
 extern char init_home[];
 extern char prev_dir[BUFFER_SIZE];
-extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
-extern Process* current_fg_process;
 
 void hop(char* path){
     char* target_path=(char*)malloc(BUFFER_SIZE);

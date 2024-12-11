@@ -1,18 +1,7 @@
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
-#include "specific_commands.h"
-#include "log.h"
-#include <signal.h>
-#include <unistd.h>
 
-extern char init_home[];
-extern int pid_shell;
-extern int last_fg_time;
-extern char last_fg_command[BUFFER_SIZE];
-extern Process* process_list_head;
+
 extern Process* bg_process[BUFFER_SIZE];
-extern Process* current_fg_process;
 extern int num_background_processes;
 
 void init_background_processes() {
@@ -94,7 +83,6 @@ void remove_process(pid_t pid) {
 
 
 void add_process(int pid,  char *command,  char *state) {
-    // printf("added process\n");
     if(num_background_processes<max_num_background_processes){
         bg_process[num_background_processes]= (Process *)malloc(sizeof(Process));
         bg_process[num_background_processes]->pid = pid;

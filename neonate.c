@@ -1,18 +1,5 @@
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
-#include "specific_commands.h"
-#include "log.h"
-#include <signal.h>
-#include <unistd.h>
 
-extern char init_home[];
-extern int pid_shell;
-extern int last_fg_time;
-extern char last_fg_command[BUFFER_SIZE];
-extern Process* process_list_head;
-extern Process* bg_process[BUFFER_SIZE];
-extern Process* current_fg_process;
 extern int num_background_processes;
 
 
@@ -75,7 +62,6 @@ void neonate(int time_arg) {
 
     int run=1;
     while(run){
-        // int most_recent_pid=get_recent_pid();
         FILE* f = fopen("/proc/sys/kernel/ns_last_pid","r"); 
         char pid[10];
         fgets(pid,10,f);

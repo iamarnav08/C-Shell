@@ -1,22 +1,8 @@
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
-#include "specific_commands.h"
-#include "log.h"
-#include <signal.h>
-#include <unistd.h>
 
-extern char init_home[];
-extern int pid_shell;
-extern int last_fg_time;
-extern char last_fg_command[BUFFER_SIZE];
-extern Process* process_list_head;
-extern Process* bg_process[BUFFER_SIZE];
-extern Process* current_fg_process;
 extern int num_background_processes;
 
 void load_myshrc(User_Function* user_functions, int* user_function_count){
-    // printf("here at load_myshrc\n");
     int index=*user_function_count;
     FILE* file=fopen(".myshrc", "r");
     if(file==NULL){
@@ -67,12 +53,9 @@ void load_myshrc(User_Function* user_functions, int* user_function_count){
         else if(strchr(line, '=')){
             char alias[BUFFER_SIZE], actual_command[BUFFER_SIZE];
             sscanf(line, "alias %[^=]=%[^\n]", alias, actual_command);
-            // remove_newline(alias);
-            // remove_newline(actual_command);
             strncpy(user_functions[index].alias, alias, strlen(alias)-1);
             strcpy(user_functions[index].actual_command, actual_command);
             index++;
-            // printf("alias: %s, actual_command: %s\n", user_functions[index].alias, user_functions[index].actual_command);
         }
     }
     *user_function_count=index;
