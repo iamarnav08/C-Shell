@@ -1,33 +1,12 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
 extern char init_home[];
 extern char prev_dir[BUFFER_SIZE];
-extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
-extern Process* current_fg_process;
 
 void reveal(char* flags, char* path, int l, int a){
     int show_hidden=0;
     int show_long=0;
-
-    // if(flags!=NULL){
-    //     for(int i=1; i<strlen(flags); i++){
-    //         if(flags[i]=='a'){
-    //             show_hidden=1;
-    //         }
-    //         else if(flags[i]=='l'){
-    //             show_long=1;
-    //         }
-    //         else{
-    //             printf("Invalid flag\n");
-    //             return;
-    //         }
-    //     }
-    // }
-
     if(l){
         show_long=1;
     }
@@ -67,7 +46,6 @@ void reveal(char* flags, char* path, int l, int a){
             strcpy(target_path, path);
         }
     }
-    // printf("target_path: %s\n", target_path);
 
     DIR* dir=opendir(target_path);
     if(dir==NULL){

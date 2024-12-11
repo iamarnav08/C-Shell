@@ -1,20 +1,13 @@
-#include "headers.h"
-#include "functions.h"
 #include "input.h"
-#include "specific_commands.h"
-#include "log.h"
 
 int num_background_processes = 0;
 int foreground_pid;
 
-extern Process* process_list_head;
 extern Process* bg_process[];
 extern Process* current_fg_process;
 
 void Take_input(char* Input){
-    // fgets(Input, BUFFER_SIZE, stdin);
     if(fgets(Input, BUFFER_SIZE, stdin)==NULL){
-        // printf("Killing the shell\n");
         kill(0, SIGKILL);
         exit(0);
     }
@@ -110,8 +103,6 @@ void execute_command(char* command, int background, log* LOG, int* run){
     char* token_pipe = strtok_r(command, "|", &token_pip_rem);
     while(token_pipe!=NULL){
         piped_tokens[num_pipes++]=token_pipe;
-        // printf("token_pipe: %s\n", token_pipe);
-        // printf("piped_tokens[%d]: %s\n", num_pipes-1, piped_tokens[num_pipes-1]);
         token_pipe=strtok_r(NULL, "|", &token_pip_rem);
     }
 
@@ -272,7 +263,6 @@ void execute_command(char* command, int background, log* LOG, int* run){
                     dup2(original_stdout, STDOUT_FILENO);
                     close(original_stdout);
                     free(path);  // Free the allocated memory
-                    // exit(0);
                 }
             }
             else if(strcmp(args1[0], "reveal")==0){
@@ -511,7 +501,6 @@ void execute_command(char* command, int background, log* LOG, int* run){
                 close(original_stdout);
             }
             else if(strcmp(args1[0], "fg")==0){
-                printf("pid: %d\n", atoi(args1[1]));
                 fg(atoi(args1[1]));
             }
             else if(strcmp(args1[0], "bg")==0){
@@ -522,7 +511,6 @@ void execute_command(char* command, int background, log* LOG, int* run){
             }
             else{
                 if (execvp(args1[0], args1) < 0) {
-                // perror("Exec failed");
                 printf("'%s' is not a valid command\n", args1[0]);
                 exit(1);
             }
@@ -564,25 +552,16 @@ void execute_command(char* command, int background, log* LOG, int* run){
             perror("fork failed");
         }
         else if(pid==0){
-            setpgid(0, 0);
-            // signal(SIGTSTP, SIG_DFL); // Reset signal handling
-            // signal(SIGTTOU, SIG_DFL);
-            // signal(SIGTTIN, SIG_DFL);
             if (execvp(args1[0], args1) < 0) {
                 perror("Exec failed");
                 exit(1);
             }
         }
         else{
-            // setpgid(pid, pid);
             add_process(pid, command, "Running");
             printf("Process ID: %d\n", pid);
             for(int k=0; k<2*num_pipes; k++){
                 close(pipefd[k]);
-            }
-            printf("num_background_processes: %d\n", num_background_processes);
-            for(int i=0; i<num_background_processes; i++){
-                printf("%s\n", bg_process[i]->command);
             }
         }
     }

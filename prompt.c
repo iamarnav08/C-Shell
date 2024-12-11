@@ -1,18 +1,8 @@
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
-#include "specific_commands.h"
-#include "log.h"
-#include <signal.h>
-#include <unistd.h>
 
-extern char init_home[];
-extern int pid_shell;
+
 extern int last_fg_time;
 extern char last_fg_command[BUFFER_SIZE];
-extern Process* process_list_head;
-extern Process* bg_process[BUFFER_SIZE];
-extern Process* current_fg_process;
 extern int num_background_processes;
 
 prompt_strings* get_prompt_strings(){
@@ -79,7 +69,6 @@ void print_prompt(int* home_dir_len, char* home_dir){
     printf("\033[38;5;51m");
     printf("%s", A->user_name);
     printf("\033[0m");
-    // printf("@%s>", A->directory);
     int l1=*home_dir_len;
     int l2=strlen(A->directory);
     if(strcmp(A->directory, home_dir)==0){

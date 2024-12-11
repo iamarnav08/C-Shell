@@ -1,8 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "functions.h"
 #include "log.h"
-
 
 void Take_input(char* Input);
 

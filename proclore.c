@@ -1,13 +1,8 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
 extern char init_home[];
 extern char prev_dir[BUFFER_SIZE];
-extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
-extern Process* current_fg_process;
 
 void proclore(char* pid_str){
     printf("Process Information\n\n");
@@ -48,7 +43,6 @@ void proclore(char* pid_str){
     int shell_pid=tcgetpgrp(STDOUT_FILENO);
 
     char back_fore;
-    // if(tcgetpgrp(STDIN_FILENO)==pgid){
     if(shell_pid==pgid){
         back_fore='+';
     }

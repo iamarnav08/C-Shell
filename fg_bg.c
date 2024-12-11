@@ -1,9 +1,5 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
-extern char init_home[];
 char prev_dir[BUFFER_SIZE]="";
 extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
@@ -47,7 +43,6 @@ void fg(int pid) {
         printf("No such process found\n");
     }
 }
-
 
 void bg(int pid) {
     int found = 0;  // Flag to check if the process is found

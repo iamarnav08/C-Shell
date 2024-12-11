@@ -1,7 +1,3 @@
-#include "specific_commands.h"
-#include "headers.h"
-#include "functions.h"
-#include "input.h"
 #include "log.h"
 
 extern char init_home[BUFFER_SIZE];
@@ -58,8 +54,6 @@ void save_log(log* LOG){
 }
 
 void write_log(char* command, log* LOG){
-    // printf("LOG->size: %d\n", LOG->size);
-    // printf("LOG->log_index: %d\n", LOG->log_index);
     if(LOG->size>0 && strcmp(command, LOG->command_log[(LOG->log_index+LOG->size-1)%LOG_FILE_SIZE])==0){
         return;     // do not write the same command twice
     }
@@ -70,8 +64,6 @@ void write_log(char* command, log* LOG){
     else{
         LOG->log_index=(LOG->log_index+1)%LOG_FILE_SIZE;
     }
-    // printf("LOG->size: %d\n", LOG->size);
-    // printf("LOG->log_index: %d\n", LOG->log_index);
 }
 
 void print_log(log* LOG){
@@ -98,14 +90,7 @@ void purge_log(log* LOG){
 }
 
 void execute_log(log* LOG, int index){
-    // printf("LOG->size: %d\n", LOG->size);
-    // printf("LOG->log_index: %d\n", LOG->log_index);
     int idx;
-    // if(LOG->size<15){
-    //     idx=LOG->size-index;
-    // }
-    // // else idx=LOG->size-LOG->count%15;
-    // else idx=(LOG->size + LOG->log_index - index)%LOG_FILE_SIZE;
     idx=(LOG->size + LOG->log_index - index)%LOG_FILE_SIZE;
     char* command_1=(char*)malloc(BUFFER_SIZE);
     if(command_1==NULL){
@@ -113,11 +98,9 @@ void execute_log(log* LOG, int index){
         return;
     }
     strcpy(command_1, LOG->command_log[idx]);
-    // printf("command: %s\n", command_1);
     char* rem_log_command;
     char* command=strtok_r(command_1, ";", &rem_log_command);
     while(command!=NULL){
-            // printf("%s\n", command);
             process_execute(command);
             command=strtok_r(NULL, ";", &rem_log_command);
             
@@ -149,8 +132,6 @@ void process_execute(char* command){
     }
     if(temp_command[0]!='\0'){
         execute_command_log(temp_command, background);
-        // temp_command[0]='\0';
-        // background=0;
     }
     
     command[0]='\0';
@@ -169,13 +150,10 @@ void execute_command_log(char* command, int background){
     }
     args1[i] = NULL; // Null-terminate the argument list
     if(strcmp(args1[0],"hop")==0){
-        // printf("here at hop\n");
         if(i>1){
             for(int j=1; j<i; j++){
-                // printf("here at hop %s\n", args1[j]);
                 hop(args1[j]);
             }
-            // printf("test2\n");
         }
         else{
             hop("~");
@@ -184,18 +162,9 @@ void execute_command_log(char* command, int background){
         return;
     }
     else if(strcmp(args1[0], "reveal")==0){
-        // printf("here at reveal\n");
         char* flags=NULL;
         char* path=NULL;
 
-        // for(int j=1; j<i; j++){
-        //     if(args1[j][0]=='-' && strlen(args1[j])>1){
-        //         flags=args1[j];
-        //     }
-        //     else{
-        //         path=args1[j];
-        //     }
-        // }
         int l=0; 
         int a=0;
 
@@ -213,8 +182,6 @@ void execute_command_log(char* command, int background){
                 path=args1[j];
             }
         }
-        // printf("flags: %s\n", flags);
-        // printf("path: %s\n", path);
         reveal(flags, path, l, a);
         return;
     }
@@ -287,13 +254,10 @@ void log_hop(char* path){
         strcpy(target_path, path);
     }
 
-    // printf("target_path: %s\n", target_path);
-
     if(chdir(target_path)!=0){
         perror("Error");
         return;
     }
-
 
     // storing current directory as prev_dir for next time
     strcpy(prev_dir, current_dir);

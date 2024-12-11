@@ -1,6 +1,13 @@
 #ifndef headers_h
 #define headers_h
 
+#define BUFFER_SIZE 4096
+#define max_num_background_processes 10
+
+#define COLOR_GREEN "\033[0;32m"  // Files
+#define COLOR_BLUE "\033[0;34m"   // Directories
+#define COLOR_RESET "\033[0m"
+
 #include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>

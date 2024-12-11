@@ -1,13 +1,7 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
-extern char init_home[];
 extern char prev_dir[BUFFER_SIZE];
-extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
-extern Process* current_fg_process;
 
 
 void remove_html_tags(const char *input) {
@@ -27,7 +21,6 @@ void remove_html_tags(const char *input) {
 }
 
 void fetch_man_page(const char *command) {
-    // printf("command in fetch_man_page: %s\n", command);
     const char *hostname = "man.he.net";
     const char *path_prefix = "/man1/";
     int port = 80;
@@ -67,7 +60,6 @@ void fetch_man_page(const char *command) {
         close(sockfd);
         return;
     }
-    // printf("Connected to %s\n", hostname);
 
     // Send the request
     if (write(sockfd, request, strlen(request)) < 0) {
@@ -75,9 +67,6 @@ void fetch_man_page(const char *command) {
         close(sockfd);
         return;
     }
-    // printf("Sent request:%s", request);
-    // printf("request end\n");
-
     // Read the response
     char buffer[BUFFER_SIZE];
     int n;
@@ -89,7 +78,6 @@ void fetch_man_page(const char *command) {
 
         // Find the end of the HTTP headers
         if (!header_found) {
-            // printf("buffer: %s\n", buffer);
             remove_html_tags(buffer);
             header_end = strstr(buffer, "\r\n\r\n");
             if (header_end) {

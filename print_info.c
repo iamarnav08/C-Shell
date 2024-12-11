@@ -1,13 +1,7 @@
-#include "specific_commands.h"
-#include "headers.h"
 #include "functions.h"
-#include "input.h"
 
-extern char init_home[];
 extern char prev_dir[BUFFER_SIZE];
-extern Process* bg_process[BUFFER_SIZE];
 extern int num_background_processes;
-extern Process* current_fg_process;
 
 void print_information(struct dirent* entry, char* target_path, int show_hidden, int show_long){
     struct stat file_stat;
@@ -46,16 +40,6 @@ void print_information(struct dirent* entry, char* target_path, int show_hidden,
                getgrgid(file_stat.st_gid)->gr_name,
                file_stat.st_size,
                time_str);
-
-        // if (S_ISDIR(file_stat.st_mode)){
-        // printf("\033[1;36m%s\033[0m\n", entry->d_name);  // Blue for directories
-        // } 
-        // else if(file_stat.st_mode & S_IXUSR){
-        //     printf("\033[1;32m%s\033[0m\n", entry->d_name);  // Green for executables
-        // } 
-        // else{
-        //     printf("\033[1;37m%s\033[0m\n", entry->d_name);  // White for files
-        // }
     }   
     if (S_ISDIR(file_stat.st_mode)){
         printf("\033[1;34m%s\033[0m\n", entry->d_name);  // Blue for directories
